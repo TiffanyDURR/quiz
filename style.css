@@ -93,12 +93,16 @@ form {
 }
 
 #submit:hover,
-.next:hover {
+.next:hover,
+.result:hover,
+.replay:hover {
   background-color: #618894;
   cursor: pointer;
 }
 
-.next {
+.next,
+.result,
+.replay {
   background-color: #255b6b;
   color: #ffffff;
   font-weight: 500;

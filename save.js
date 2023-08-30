@@ -12,11 +12,8 @@ const repDivs = document.querySelectorAll(".rep");
 const submitButton = document.getElementById("submit");
 const nextButton = document.querySelector(".next");
 const answerDiv = document.querySelector(".answer");
-// const scoreDiv = document.querySelector(".score > span");
+const scoreDiv = document.querySelector(".score > span");
 const questionIndexDiv = document.querySelector(".questionindex");
-const resultButton = document.querySelector(".result");
-const repList = document.querySelector("ul");
-const replayButton = document.querySelector(".replay");
 
 let goodcolor;
 let wrongcolor;
@@ -25,8 +22,6 @@ let targetID;
 let index = 0;
 let questionList = 1;
 let score = 0;
-let x;
-let y;
 
 // Le player a raison ou tort ?
 let player;
@@ -87,11 +82,15 @@ function check() {
         player = true;
         answerDiv.innerHTML = "Bonne réponse !";
         score = score + 1;
+        scoreDiv.innerHTML = score;
+        console.log("true player");
         tadah();
       } else {
         player = false;
         answerDiv.innerHTML = "Mauvaise réponse !";
         score = score + 0;
+        scoreDiv.innerHTML = score;
+        console.log("false player");
         tadah();
       }
     }
@@ -101,32 +100,34 @@ function check() {
 check();
 
 function tadah() {
+  console.log(player);
   index++;
   questionList++;
   if (player == false) {
+    console.log("false");
     wrongcolor = document.getElementById(`${targetID}`);
     goodcolor = document.getElementById(`${questionsData[index - 1].good}`);
+    console.log(index);
+    console.log(goodcolor);
     wrongcolor.style = "background-color: #8f3939; color: #ffffff; border: 1px solid #8f3939";
     goodcolor.style = "background-color: #3d6e45; color: #ffffff; border: 1px solid #3d6e45";
     submitButton.style.display = "none";
     nextButton.style.display = "flex";
   } else {
+    console.log("true");
     goodcolor = document.getElementById(`${questionsData[index - 1].good}`);
+    console.log(index);
+    console.log(goodcolor);
     goodcolor.style = "background-color: #3d6e45; color: #ffffff; border: 1px solid #3d6e45";
   }
   submitButton.style.display = "none";
   nextButton.style.display = "flex";
-  if (index + 1 >= questionsData.length + 1) {
-    nextButton.style.display = "none";
-    resultButton.style.display = "flex";
-    final();
-  } else {
-    nextQuestion();
-  }
+  nextQuestion();
 }
 
 function nextQuestion() {
   nextButton.addEventListener("click", () => {
+    console.log(index);
     submitted = false;
     if (wrongcolor) {
       goodcolor.style = "";
@@ -153,27 +154,4 @@ function update() {
   answerDiv.innerHTML = "";
   selectDiv.style = "";
   answerSelected = false;
-}
-
-function final() {
-  resultButton.addEventListener("click", () => {
-    repList.style.display = "none";
-    answerDiv.innerHTML = "";
-    questionDiv.style = `font-size: 60px;`;
-    questionDiv.innerHTML = `Score : ${score}`;
-    resultButton.style.display = "none";
-    y = questionsData.length;
-    x = score;
-    let w = y - x;
-    console.log(y);
-    questionIndexDiv.innerHTML = `${w} mauvaise(s) réponse(s) / ${y} questions`;
-    replayButton.style.display = "flex";
-    replay();
-  });
-}
-
-function replay() {
-  replayButton.addEventListener("click", () => {
-    location.reload();
-  });
 }
